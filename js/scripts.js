@@ -15,8 +15,26 @@ createValidTreeStructure();
 updateClient();
 // funcs
 function updateClient() {
+   let lastupdate;
+   if (fs.existsSync(defaultDataPath + "/lastupdate.txt")) {
+      lastupdate = fs.readFileSync(defaultDataPath + "/lastupdate.txt", 'utf-8');
+   }
+   console.log(lastupdate)
+   update();
+}
+
+function download(url, dest, cb) {
+   var file = fs.createWriteStream(dest);
+   var request = http.get(url, function (response) {
+      response.pipe(file);
+      file.on('finish', function () {
+         file.close(cb);
+      });
+   });
+}
+
+function update() {
    document.addEventListener("DOMContentLoaded", function (event) {
-      fs.writeFileSync(defaultDataPath + "/lastupdate", "Date.now()")
       launchbutton = document.getElementById("launch");
       launchbutton.disabled = true;
       launchbutton.innerHTML = "Updating!";
@@ -32,16 +50,6 @@ function updateClient() {
          launchbutton.disabled = false;
          launchbutton.innerHTML = "Launch Client";
       })
-   });
-}
-
-function download(url, dest, cb) {
-   var file = fs.createWriteStream(dest);
-   var request = http.get(url, function (response) {
-      response.pipe(file);
-      file.on('finish', function () {
-         file.close(cb);
-      });
    });
 }
 

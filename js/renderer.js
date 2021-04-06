@@ -13,8 +13,11 @@ var libdir = mcdir + '/libraries';
 var cosmolibdir = libdir + '/com/cosmo/Cosmo/LOCAL'
 const win = remote.getCurrentWindow();
 
+// On load
 createValidTreeStructure();
-updateClient();
+update();
+
+// On ready
 document.onreadystatechange = (event) => {
     if (document.readyState == "complete") {
         handleWindowControls();
@@ -25,6 +28,7 @@ window.onbeforeunload = (event) => {
     win.removeAllListeners();
 }
 
+// Functions 
 function handleWindowControls() {
     // Make minimise/maximise/restore/close buttons work when they are clicked
     document.getElementById('min-button').addEventListener("click", event => {
@@ -72,7 +76,20 @@ function download(url, dest, cb) {
         });
     });
 }
-
+function update() {
+    let lastupdate;
+    const timeNow = Date.now()
+    const today = new Date(timeNow).toLocaleDateString()
+    if (fs.existsSync(defaultDataPath + "/lastupdate.txt")) {
+       lastupdate = fs.readFileSync(defaultDataPath + "/lastupdate.txt", 'utf-8');
+       fs.writeFileSync(defaultDataPath + "/lastupdate.txt", today);
+    } else {
+        fs.writeFileSync(defaultDataPath + "/lastupdate.txt", today);
+    }
+    if (lastupdate != today) {
+        updateClient()
+    }
+}
 function updateClient() {
     document.addEventListener("DOMContentLoaded", function (event) {
         launchbutton = document.getElementById("launch");
@@ -84,7 +101,7 @@ function updateClient() {
         download("http://raw.githubusercontent.com/legendary-cookie/cosmo/main/Cosmo.bin", cosmolibdir + '/Cosmo-LOCAL.jar', function (error) {
             if (error) throw error;
             launchbutton.disabled = false;
-            launchbutton.innerHTML = "Launch Client";
+            launchbutton.innerHTML = "Launch";
         })
         download("http://raw.githubusercontent.com/legendary-cookie/cosmo/main/launchwrapper-1.12.jar", libdir + '/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar', function (error) {
             if (error) throw error;

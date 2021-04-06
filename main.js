@@ -13,7 +13,6 @@ let updatesTrueFalse = false;
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 log.info('App starting...');
-
 //-------------------------------------------------------------------
 /* Code
 * 
@@ -32,6 +31,9 @@ function createWindow() {
             nodeIntegration: true,
             enableRemoteModule: true
         }
+    });
+    mainWindow.webContents.session.clearCache(function() {
+        log.info("Cleared session cache")
     });
     mainWindow.loadFile('index.html');
 
@@ -66,7 +68,6 @@ app.on('ready', () => {
     autoUpdater.checkForUpdatesAndNotify();
     createWindow();
 });
-
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') {
         app.quit();
