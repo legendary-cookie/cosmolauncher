@@ -6,12 +6,13 @@
   "repository": "https://github.com/legendary-cookie/cosmolauncher.git",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder -c.snap.publish=github -l pacman",
+    "build": "electron-builder -c.snap.publish=github -ml pacman",
     "publish": "electron-builder -c.snap.publish=github -p always -wl"
   },
   "build": {
     "appId": "de.vincentschweiger.cosmolauncher",
     "linux": {
+	"icon": "build/icon.png",
       "target": [
         "pacman",
         "AppImage"
@@ -21,10 +22,18 @@
       "buildResources": "resources"
     },
     "win": {
+	"icon": "build/icon.png",
       "target": [
         "nsis"
       ]
     },
+	"mac": {
+	"icon": "build/icon.png",
+	"target": [
+		"dmg",
+		"zip"
+		]
+	},
     "publish": [
       {
         "provider": "github",
