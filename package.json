@@ -1,6 +1,6 @@
 {
   "name": "cosmolauncher",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "A minimal Minecraft launcher for the Cosmoclient",
   "main": "main.js",
   "repository": "https://github.com/legendary-cookie/cosmolauncher.git",
