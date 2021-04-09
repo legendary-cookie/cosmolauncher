@@ -1,2 +1,2 @@
 # cosmolauncher
-Launcher for my "Cosmo" Minecraft client project
+Launcher for my "Cosmo" Minecraft client project.
