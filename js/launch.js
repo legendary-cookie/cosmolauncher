@@ -16,7 +16,7 @@ function launch() {
             custom: "Cosmo"
         },
         memory: {
-            max: "8G",
+            max: "6G",
             min: "4G"
         }
     }
@@ -39,7 +39,7 @@ function launchlatest() {
             type: "release"
         },
         memory: {
-            max: "8G",
+            max: "6G",
             min: "4G"
         }
     }

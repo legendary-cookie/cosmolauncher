@@ -27,12 +27,13 @@ function createWindow() {
         height: 600,
         frame: false,
         backgroundColor: '#FFF',
-        devTools: false,
         webPreferences: {
             nodeIntegration: true,
             enableRemoteModule: true
         }
     });
+	mainWindow.webContents.on("devtools-opened", () => { mainWindow.webContents.closeDevTools(); });
+
     mainWindow.webContents.session.clearCache(function() {
         log.info("Cleared session cache")
     });
