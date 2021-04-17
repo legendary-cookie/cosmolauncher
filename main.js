@@ -32,7 +32,7 @@ function createWindow() {
             enableRemoteModule: true
         }
     });
-	mainWindow.webContents.on("devtools-opened", () => { mainWindow.webContents.closeDevTools(); });
+
 
     mainWindow.webContents.session.clearCache(function() {
         log.info("Cleared session cache")
