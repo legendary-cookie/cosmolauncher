@@ -8,7 +8,8 @@
     "start": "electron .",
     "build": "electron-builder -c.snap.publish=github -ml pacman",
     "publish": "electron-builder -c.snap.publish=github -p always -wl",
-	"publish-mac": "electron-builder -c.snap.publish=github -p always -wlm"  
+	  "publish-mac": "electron-builder -c.snap.publish=github -p always -wlm",
+    "clean": "rm -rf dist/" 
 },
   "build": {
     "appId": "de.vincentschweiger.cosmolauncher",
