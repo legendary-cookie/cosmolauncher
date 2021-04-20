@@ -55,9 +55,9 @@ function handleWindowControls() {
 
 function download(url, dest, cb) {
     var file = fs.createWriteStream(dest);
-    var request = http.get(url, function(response) {
+    var request = http.get(url, function (response) {
         response.pipe(file);
-        file.on('finish', function() {
+        file.on('finish', function () {
             file.close(cb);
         });
     });
@@ -73,32 +73,30 @@ function update() {
     } else {
         fs.writeFileSync(defaultDataPath + "/lastupdate.txt", today);
     }
-    if (lastupdate != today) {
-        updateClient();
-    }
+    //if (lastupdate == today) return;
+    updateClient();
 }
 
 function updateClient() {
-    document.addEventListener("DOMContentLoaded", function(event) {
+    document.addEventListener("DOMContentLoaded", function (event) {
         launchbutton = document.getElementById("launch");
         launchbutton.disabled = true;
         launchbutton.innerHTML = "Updating!";
-        download("http://raw.githubusercontent.com/legendary-cookie/cosmo/main/Cosmo.json", clientdir + '/Cosmo.json', function(error) {
+        download("http://raw.githubusercontent.com/legendary-cookie/cosmo/main/Cosmo.json", clientdir + '/Cosmo.json', function (error) {
             if (error) throw error;
         });
-        download("http://raw.githubusercontent.com/legendary-cookie/cosmo/main/Cosmo.bin", cosmolibdir + '/Cosmo-LOCAL.jar', function(error) {
+        download("http://github.com/legendary-cookie/cosmo/releases/latest/download/Cosmo.jar", cosmolibdir + '/Cosmo-LOCAL.jar', function (error) {
             if (error) throw error;
             launchbutton.disabled = false;
             launchbutton.innerHTML = "Launch";
         });
-        download("http://raw.githubusercontent.com/legendary-cookie/cosmo/main/launchwrapper-1.12.jar", libdir + '/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar', function(error) {
+        download("http://raw.githubusercontent.com/legendary-cookie/cosmo/main/launchwrapper-1.12.jar", libdir + '/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar', function (error) {
             if (error) throw error;
         });
     });
 }
 
 function createValidTreeStructure() {
-    /*if (!fs.existsSync(mcdir)){fs.mkdirSync(mcdir,{ recursive: true });}if(!fs.existsSync(versionsdir)){fs.mkdirSync(versionsdir, { recursive: true });}if (!fs.existsSync(clientdir)){fs.mkdirSync(clientdir, { recursive: true });} */
     shelljs.mkdir('-p', mcdir);
     shelljs.mkdir('-p', versionsdir);
     shelljs.mkdir('-p', clientdir);
