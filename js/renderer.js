@@ -103,7 +103,7 @@ function updateClient() {
             if (oldLatest["latest"] == newLatest["latest"]) {
                 log.info("Newest version already installed");
                 launchbutton.disabled = false;
-                launchbutton.innerHTML = "Launch";
+                launchbutton.innerHTML = "Launch Cosmo " + newLatest["latest"];
                 return;
             } else {
                 if (!fs.existsSync(libdir + '/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar')) {
@@ -115,7 +115,7 @@ function updateClient() {
                 download("http://github.com/legendary-cookie/cosmo/releases/latest/download/Cosmo.jar", cosmolibdir + '/Cosmo-LOCAL.jar', function (error) {
                     if (error) throw error;
                     launchbutton.disabled = false;
-                    launchbutton.innerHTML = "Launch";
+                    launchbutton.innerHTML = "Launch Cosmo " + newLatest["latest"];
                     log.info("Installed newest version");
                 });
             }
