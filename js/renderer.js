@@ -11,6 +11,9 @@ var clientdir = versionsdir + '/Cosmo';
 var libdir = mcdir + '/libraries';
 var cosmolibdir = libdir + '/com/cosmo/Cosmo/LOCAL';
 const win = remote.getCurrentWindow();
+const log = require('electron-log');
+
+
 createValidTreeStructure();
 update();
 document.onreadystatechange = (event) => {
@@ -82,18 +85,46 @@ function updateClient() {
         launchbutton = document.getElementById("launch");
         launchbutton.disabled = true;
         launchbutton.innerHTML = "Updating!";
-        download("http://raw.githubusercontent.com/legendary-cookie/cosmo/main/Cosmo.json", clientdir + '/Cosmo.json', function (error) {
+        if (!fs.existsSync(clientdir + "/Cosmo.json")) {
+            download("http://raw.githubusercontent.com/legendary-cookie/cosmo/main/Cosmo.json", clientdir + '/Cosmo.json', function (error) {
+                if (error) throw error;
+            });
+        }
+        if (fs.existsSync(defaultDataPath + "/newLatest.json")) {
+            fs.renameSync(defaultDataPath + "/newLatest.json", defaultDataPath + "/oldLatest.json");
+        }
+        download("http://github.com/legendary-cookie/cosmo/releases/latest/download/latest.json", defaultDataPath + "/newLatest.json", function (error) {
             if (error) throw error;
-        });
-        download("http://github.com/legendary-cookie/cosmo/releases/latest/download/Cosmo.jar", cosmolibdir + '/Cosmo-LOCAL.jar', function (error) {
-            if (error) throw error;
-            launchbutton.disabled = false;
-            launchbutton.innerHTML = "Launch";
-        });
-        download("http://raw.githubusercontent.com/legendary-cookie/cosmo/main/launchwrapper-1.12.jar", libdir + '/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar', function (error) {
-            if (error) throw error;
+            var newLatest = readFromJson(defaultDataPath + "/newLatest.json");
+            var oldLatest = readFromJson(defaultDataPath + "/oldLatest.json");
+            log.info("Newest version available: " + newLatest["latest"]);
+            log.info("Version installed: " + oldLatest["latest"]);
+            if (oldLatest["latest"] == newLatest["latest"]) {
+                log.info("Newest version already installed");
+                launchbutton.disabled = false;
+                launchbutton.innerHTML = "Launch";
+                return;
+            } else {
+                download("http://github.com/legendary-cookie/cosmo/releases/latest/download/Cosmo.jar", cosmolibdir + '/Cosmo-LOCAL.jar', function (error) {
+                    if (error) throw error;
+                    launchbutton.disabled = false;
+                    launchbutton.innerHTML = "Launch";
+                    log.info("Installed newest version");
+                });
+                if (!fs.existsSync(libdir + '/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar')) {
+                    download("http://raw.githubusercontent.com/legendary-cookie/cosmo/main/launchwrapper-1.12.jar", libdir + '/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar', function (error) {
+                        if (error) throw error;
+                    });
+                }
+            }
         });
     });
+}
+
+function readFromJson(path) {
+    if (!fs.existsSync(path)) return undefined;
+    var obj = JSON.parse(fs.readFileSync(path, 'utf8'));
+    return obj;
 }
 
 function createValidTreeStructure() {
