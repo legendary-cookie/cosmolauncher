@@ -97,7 +97,7 @@ function updateClient() {
             if (error) throw error;
             var newLatest = readFromJson(defaultDataPath + "/newLatest.json");
             var oldLatest = readFromJson(defaultDataPath + "/oldLatest.json");
-            if (oldLatest == undefined) oldLatest = {"latest":"not installed"};
+            if (oldLatest == undefined) oldLatest = { "latest": "not installed" };
             log.info("Newest version available: " + newLatest["latest"]);
             log.info("Version installed: " + oldLatest["latest"]);
             if (oldLatest["latest"] == newLatest["latest"]) {
@@ -106,17 +106,18 @@ function updateClient() {
                 launchbutton.innerHTML = "Launch";
                 return;
             } else {
+                if (!fs.existsSync(libdir + '/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar')) {
+                    download("http://raw.githubusercontent.com/legendary-cookie/cosmo/main/launchwrapper-1.12.jar", libdir + '/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar', function (error) {
+                        if (error) throw error;
+                        log.info("Downloaded launchwrapper library")
+                    });
+                }
                 download("http://github.com/legendary-cookie/cosmo/releases/latest/download/Cosmo.jar", cosmolibdir + '/Cosmo-LOCAL.jar', function (error) {
                     if (error) throw error;
                     launchbutton.disabled = false;
                     launchbutton.innerHTML = "Launch";
                     log.info("Installed newest version");
                 });
-                if (!fs.existsSync(libdir + '/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar')) {
-                    download("http://raw.githubusercontent.com/legendary-cookie/cosmo/main/launchwrapper-1.12.jar", libdir + '/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar', function (error) {
-                        if (error) throw error;
-                    });
-                }
             }
         });
     });
