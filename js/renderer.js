@@ -97,6 +97,7 @@ function updateClient() {
             if (error) throw error;
             var newLatest = readFromJson(defaultDataPath + "/newLatest.json");
             var oldLatest = readFromJson(defaultDataPath + "/oldLatest.json");
+            if (oldLatest == undefined) oldLatest = {"latest":"not installed"};
             log.info("Newest version available: " + newLatest["latest"]);
             log.info("Version installed: " + oldLatest["latest"]);
             if (oldLatest["latest"] == newLatest["latest"]) {
