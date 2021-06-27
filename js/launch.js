@@ -39,6 +39,7 @@ function launch165() {
             number: "1.16.5",
             type: "release"
         },
+        javaPath: jsonstorage.getDefaultDataPath()+"/jre1.8.0_291/bin/java",
         memory: {
             max: "6G",
             min: "4G"
@@ -63,6 +64,7 @@ function launch17() {
             number: "1.17",
             type: "release"
         },
+        javaPath: jsonstorage.getDefaultDataPath()+"/jdk-16.0.1/bin/java",
         memory: {
             max: "6G",
             min: "4G"

@@ -83,6 +83,9 @@ function updateClient() {
         if (fs.existsSync(defaultDataPath + "/newLatest.json")) {
             fs.renameSync(defaultDataPath + "/newLatest.json", defaultDataPath + "/oldLatest.json");
         }
+
+        jvm.getNewJvm(document.getElementById("vanilla17"), "Vanilla 1.17")
+
         download("http://github.com/legendary-cookie/cosmo/releases/latest/download/latest.json", defaultDataPath + "/newLatest.json", function (error) {
             if (error) throw error;
             var newLatest = readFromJson(defaultDataPath + "/newLatest.json");
