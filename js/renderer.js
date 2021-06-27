@@ -74,7 +74,7 @@ function updateClient() {
     document.addEventListener("DOMContentLoaded", function (event) {
         launchbutton = document.getElementById("launch");
         launchbutton.disabled = true;
-        launchbutton.innerHTML = "Updating!";
+        launchbutton.innerHTML = "Checking for updates...";
         if (!fs.existsSync(clientdir + "/Cosmo.json")) {
             download("http://raw.githubusercontent.com/legendary-cookie/cosmo/main/Cosmo.json", clientdir + '/Cosmo.json', function (error) {
                 if (error) throw error;
@@ -96,6 +96,7 @@ function updateClient() {
                 launchbutton.innerHTML = "Launch Cosmo " + newLatest["latest"];
                 return;
             } else {
+		launchbutton.innerHTML = "Found newer version! Updating...";
                 if (!fs.existsSync(libdir + '/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar')) {
                     download("http://raw.githubusercontent.com/legendary-cookie/cosmo/main/launchwrapper-1.12.jar", libdir + '/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar', function (error) {
                         if (error) throw error;

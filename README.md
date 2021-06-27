@@ -1,3 +1,3 @@
 # cosmolauncher
 
-Launcher for my "Cosmo" Minecraft client project.
+Legacy Launcher for my "Cosmo" Minecraft client project.
