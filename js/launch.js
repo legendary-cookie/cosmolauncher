@@ -15,6 +15,7 @@ function launch() {
             type: "release",
             custom: "Cosmo"
         },
+        javaPath: jsonstorage.getDefaultDataPath()+"/jre1.8.0_291/bin/java",
         memory: {
             max: "6G",
             min: "4G"

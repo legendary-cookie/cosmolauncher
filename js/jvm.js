@@ -7,7 +7,7 @@ const zlib = require('zlib')
 const log = require('electron-log');
 
 
-const linux_url = "https://javadl.oracle.com/webapps/download/AutoDL?BundleId=244573_d7fc238d0cbf4b0dac67be84580cfb4b"
+const linux_url = "https://github.com/legendary-cookie/pkg-repo/releases/download/jdk-8-linux/jre-8u291-linux-x64.tar.gz"
 const windows_url = "https://github.com/legendary-cookie/pkg-repo/releases/download/JRE-8-windows/jre-8u291-windows-x64.tar.gz"
 
 function getJvm(launchbutton, latest) {
@@ -25,6 +25,7 @@ function getJvm(launchbutton, latest) {
                         log.info("Extracted JRE")
                         launchbutton.innerHTML = "Launch Cosmo " + latest;
                         launchbutton.disabled = false;
+                        fs.unlinkSync(defaultDataPath+"/java-win.tar.gz")
                     });
             });
         } else if (os.platform() == 'linux') {
@@ -38,6 +39,7 @@ function getJvm(launchbutton, latest) {
                         log.info("Extracted JRE")
                         launchbutton.innerHTML = "Launch Cosmo " + latest;
                         launchbutton.disabled = false;
+                        fs.unlinkSync(defaultDataPath+"/java-linux.tar.gz")
                     });
             });
         }
