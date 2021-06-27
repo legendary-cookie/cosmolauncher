@@ -67,16 +67,6 @@ function download(url, dest, cb) {
 }
 
 function update() {
-    let lastupdate;
-    const timeNow = Date.now();
-    const today = new Date(timeNow).toLocaleDateString();
-    if (fs.existsSync(defaultDataPath + "/lastupdate.txt")) {
-        lastupdate = fs.readFileSync(defaultDataPath + "/lastupdate.txt", 'utf-8');
-        fs.writeFileSync(defaultDataPath + "/lastupdate.txt", today);
-    } else {
-        fs.writeFileSync(defaultDataPath + "/lastupdate.txt", today);
-    }
-    //if (lastupdate == today) return;
     updateClient();
 }
 
@@ -112,7 +102,7 @@ function updateClient() {
                         log.info("Downloaded launchwrapper library")
                     });
                 }
-                download("http://github.com/legendary-cookie/cosmo/releases/latest/download/Cosmo.jar", cosmolibdir + '/Cosmo-LOCAL.jar', function (error) {
+                download("http://github.com/legendary-cookie/cosmo/releases/latest/download/Cosmo-"+newLatest["latest"]+".jar", cosmolibdir + '/Cosmo-LOCAL.jar', function (error) {
                     if (error) throw error;
                     launchbutton.disabled = false;
                     launchbutton.innerHTML = "Launch Cosmo " + newLatest["latest"];
