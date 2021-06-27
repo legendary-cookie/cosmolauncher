@@ -9,12 +9,12 @@
     "build": "electron-builder -c.snap.publish=github -ml pacman",
     "publish": "electron-builder -c.snap.publish=github -p always -wl",
     "publish-mac": "electron-builder -c.snap.publish=github -p always -wlm",
-    "clean": "rm -rf dist/" 
-},
+    "clean": "rm -rf dist/"
+  },
   "build": {
     "appId": "de.vincentschweiger.cosmolauncher",
     "linux": {
-	"icon": "build/icon.png",
+      "icon": "build/icon.png",
       "target": [
         "pacman",
         "AppImage"
@@ -24,17 +24,17 @@
       "buildResources": "resources"
     },
     "win": {
-	"icon": "build/icon.png",
+      "icon": "build/icon.png",
       "target": [
         "nsis"
       ]
     },
-	"mac": {
-	"icon": "build/icon.png",
-	"target": [
-		"zip"
-		]
-	},
+    "mac": {
+      "icon": "build/icon.png",
+      "target": [
+        "zip"
+      ]
+    },
     "publish": [
       {
         "provider": "github",
@@ -59,6 +59,8 @@
     "jquery": "^3.5.1",
     "minecraft-launcher-core": "^3.16.2",
     "shelljs": "^0.8.4",
-    "yargs": "^16.2.0"
+    "tar-fs": "^2.1.1",
+    "yargs": "^16.2.0",
+    "zlib": "^1.0.5"
   }
 }

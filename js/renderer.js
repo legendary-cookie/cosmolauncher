@@ -127,3 +127,8 @@ function createValidTreeStructure() {
     shelljs.mkdir('-p', cosmolibdir);
     shelljs.mkdir('-p', libdir + '/net/minecraft/launchwrapper/1.12/');
 }
+
+
+module.exports = {
+    download
+}
