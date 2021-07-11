@@ -1,0 +1,13 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+body {
+  background: #1A2933;
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+  color: white;
+  text-align: left;
+  font-size: 24px;
+}

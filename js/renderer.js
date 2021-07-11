@@ -72,6 +72,11 @@ function update() {
 
 function updateClient() {
     document.addEventListener("DOMContentLoaded", function (event) {
+        document.getElementById("addons").disabled = true;
+        download("http://raw.githubusercontent.com/CosmoNetworks/AddonRepository/master/addons.json", defaultDataPath + "/addons.json", function (error) {
+            if (error) throw error;
+            document.getElementById("addons").disabled = false;
+        })
         launchbutton = document.getElementById("launch");
         launchbutton.disabled = true;
         launchbutton.innerHTML = "Checking for updates...";
