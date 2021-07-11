@@ -75,7 +75,6 @@ function updateClient() {
         document.getElementById("addons").disabled = true;
         download("http://raw.githubusercontent.com/CosmoNetworks/AddonRepository/master/addons.json", defaultDataPath + "/addons.json", function (error) {
             if (error) throw error;
-            document.getElementById("addons").disabled = false;
         })
         launchbutton = document.getElementById("launch");
         launchbutton.disabled = true;
@@ -101,8 +100,9 @@ function updateClient() {
             if (oldLatest["latest"] == newLatest["latest"]) {
                 log.info("Newest version already installed");
                 launchbutton.disabled = false;
+                document.getElementById("addons").disabled = false;
                 launchbutton.innerHTML = "Launch Cosmo " + newLatest["latest"];
-                jvm.getJvm(launchbutton, newLatest["latest"])
+                jvm.getJvm(launchbutton, newLatest["latest"], document.getElementById("addons"))
                 return;
             } else {
                 launchbutton.innerHTML = "Found newer version! Updating...";
@@ -115,9 +115,10 @@ function updateClient() {
                 download("http://github.com/legendary-cookie/cosmo/releases/latest/download/Cosmo-" + newLatest["latest"] + ".jar", cosmolibdir + '/Cosmo-LOCAL.jar', function (error) {
                     if (error) throw error;
                     launchbutton.disabled = false;
+                    addonButton.disabled = false;
                     launchbutton.innerHTML = "Launch Cosmo " + newLatest["latest"];
                     log.info("Installed newest version");
-                    jvm.getJvm(launchbutton, newLatest["latest"])
+                    jvm.getJvm(launchbutton, newLatest["latest"], document.getElementById("addons"))
                 });
             }
         })
