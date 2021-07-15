@@ -115,7 +115,7 @@ function updateClient() {
                 download("http://github.com/legendary-cookie/cosmo/releases/latest/download/Cosmo-" + newLatest["latest"] + ".jar", cosmolibdir + '/Cosmo-LOCAL.jar', function (error) {
                     if (error) throw error;
                     launchbutton.disabled = false;
-                    addonButton.disabled = false;
+                    document.getElementById("addons").disabled = false;
                     launchbutton.innerHTML = "Launch Cosmo " + newLatest["latest"];
                     log.info("Installed newest version");
                     jvm.getJvm(launchbutton, newLatest["latest"], document.getElementById("addons"))
