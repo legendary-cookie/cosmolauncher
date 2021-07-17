@@ -35,7 +35,7 @@ function createWindow() {
     });
 
 
-    mainWindow.webContents.session.clearCache(function() {
+    mainWindow.webContents.session.clearCache(function () {
         log.info("Cleared session cache")
     });
     mainWindow.loadFile('index.html');
@@ -67,7 +67,7 @@ function createWindow() {
         event.reply('update-reply', updatesTrueFalse)
     })
     ipcMain.on('load', (event, arg) => {
-    	mainWindow.loadFile(arg)
+        mainWindow.loadFile(arg)
     })
 }
 app.on('ready', () => {
@@ -92,11 +92,11 @@ autoUpdater.on('update-available', function () {
 
 var server = http.createServer(handleRequest);
 
-server.listen(6546, function() {
+server.listen(6546, function () {
     console.log('server started at http://localhost:6546');
 });
 
 function handleRequest(req, res) {
- console.log("Got one!");
+    console.log("Got one!");
 };
 

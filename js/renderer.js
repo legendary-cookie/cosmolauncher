@@ -13,7 +13,7 @@ var cosmolibdir = libdir + '/com/cosmo/Cosmo/LOCAL';
 const win = remote.getCurrentWindow();
 const log = require('electron-log');
 const jvm = require('./jvm')
-const {Authenticator} = require('minecraft-launcher-core');
+const { Authenticator } = require('minecraft-launcher-core');
 
 createValidTreeStructure();
 update();
@@ -69,15 +69,15 @@ function download(url, dest, cb) {
 }
 
 async function update() {
-   if (!fs.existsSync(jsonstorage.getDefaultDataPath()+"/.mcauth")) {
-     document.location.replace("loginpage/index.html");return;
-   } else {
-	   authObj = JSON.parse(fs.readFileSync(defaultDataPath+"/.mcauth", 'utf-8'));
-	   validProm = await Authenticator.validate(authObj["access_token"], authObj["client_token"]);
-	  
-	   return;
-   }
-   updateClient();
+    if (!fs.existsSync(jsonstorage.getDefaultDataPath() + "/.mcauth")) {
+        document.location.replace("loginpage/index.html");
+        return;
+    } else {
+        authObj = JSON.parse(fs.readFileSync(defaultDataPath + "/.mcauth", 'utf-8'));
+        validProm = Authenticator.validate(authObj["access_token"], authObj["client_token"])
+            .catch(error => document.location.replace("loginpage/index.html"));
+    }
+    updateClient();
 }
 
 function updateClient() {

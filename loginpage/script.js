@@ -7,14 +7,14 @@ async function setCredsMojang() {
    username = document.getElementById("email").value;
    password = document.getElementById("password").value;
    try {
-	auth = await Authenticator.getAuth(username, password);	
-   	fs.writeFileSync(defaultDataPath+"/.mcauth", JSON.stringify(auth)); 
-	document.location.replace("../index.html");
+      auth = await Authenticator.getAuth(username, password);
+      fs.writeFileSync(defaultDataPath + "/.mcauth", JSON.stringify(auth));
+      document.location.replace("../index.html");
    }
-    catch(e){
-	console.error(e);
-        alert("Something went wrong while logging in, try checking if your password/email are correct!");
-    }
+   catch (e) {
+      console.error(e);
+      alert("Something went wrong while logging in, try checking if your password/email are correct!");
+   }
 }
 
 
@@ -24,7 +24,7 @@ function loginfunc() {
    setCredsMojang();
 }
 
-$('form').on('submit', function(event) {
+$('form').on('submit', function (event) {
    event.preventDefault();
 });
 
