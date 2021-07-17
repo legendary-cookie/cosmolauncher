@@ -1,8 +1,22 @@
+//-------------------------------------------------------------------
+// The Import section
 const { app, BrowserWindow, ipcMain, ipcRenderer, Menu } = require('electron');
 const { autoUpdater } = require("electron-updater");
 const log = require('electron-log');
 const http = require('http');
+const tmp = require('tmp');
+const fs = require('fs')
+//-------------------------------------------------------------------
+// Some variables
 let updatesTrueFalse = false;
+let tmpFile;
+//-------------------------------------------------------------------
+// TMP file
+tmp.file(function _tempFileCreated(err, path, fd, cleanupCallback) {
+    if (err) throw err;
+    tmpFile = path;
+    fs.writeFileSync(path, "no")
+});
 //-------------------------------------------------------------------
 // Logging
 //
@@ -59,15 +73,14 @@ function createWindow() {
     ipcMain.on('close', () => {
         mainWindow.close()
     })
-
     ipcMain.on('version', (event) => {
         event.reply('version-reply', app.getVersion())
     })
     ipcMain.on('getupdates', (event) => {
         event.reply('update-reply', updatesTrueFalse)
     })
-    ipcMain.on('load', (event, arg) => {
-        mainWindow.loadFile(arg)
+    ipcMain.on('temp', (event) => {
+        event.reply('temp-reply', tmpFile)
     })
 }
 app.on('ready', () => {

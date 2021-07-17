@@ -15,8 +15,16 @@ const log = require('electron-log');
 const jvm = require('./jvm')
 const { Authenticator } = require('minecraft-launcher-core');
 
+let tempFile;
+
 createValidTreeStructure();
-update();
+document.addEventListener("DOMContentLoaded", function (event) {
+    ipc.send('temp');
+    ipc.on('temp-reply', (event, arg) => {
+        tempFile = arg;
+        update();
+    });
+});
 
 document.onreadystatechange = (event) => {
     if (document.readyState == "complete") {
@@ -25,7 +33,8 @@ document.onreadystatechange = (event) => {
 };
 window.onbeforeunload = (event) => {
     win.removeAllListeners();
-}; /* Functions */
+};
+/* Functions */
 function handleWindowControls() {
     /* Make minimise/maximise/restore/close buttons work when they are clicked */
     document.getElementById('min-button').addEventListener("click", event => {
@@ -44,7 +53,8 @@ function handleWindowControls() {
     ipc.on('version-reply', (event, arg) => {
         const titlespan = document.getElementById('titlespan');
         titlespan.innerHTML = ("Cosmolauncher v" + arg);
-    }); /* Toggle maximise/restore buttons when maximisation/unmaximisation occurs */
+    });
+    /* Toggle maximise/restore buttons when maximisation/unmaximisation occurs */
     toggleMaxRestoreButtons();
     win.on('maximize', toggleMaxRestoreButtons);
     win.on('unmaximize', toggleMaxRestoreButtons);
@@ -69,71 +79,73 @@ function download(url, dest, cb) {
 }
 
 async function update() {
-    if (!fs.existsSync(jsonstorage.getDefaultDataPath() + "/.mcauth")) {
-        document.location.replace("loginpage/index.html");
-        return;
-    } else {
-        authObj = JSON.parse(fs.readFileSync(defaultDataPath + "/.mcauth", 'utf-8'));
-        validProm = Authenticator.validate(authObj["access_token"], authObj["client_token"])
-            .catch(error => document.location.replace("loginpage/index.html"));
-    }
-    updateClient();
+    fs.readFile(tempFile, 'utf8', function (err, data) {
+        if (err) throw err;
+        if (data == "no") {
+            if (!fs.existsSync(jsonstorage.getDefaultDataPath() + "/.mcauth")) {
+                document.location.replace("loginpage/index.html");
+            } else {
+                authObj = JSON.parse(fs.readFileSync(defaultDataPath + "/.mcauth", 'utf-8'));
+                Authenticator.validate(authObj["access_token"], authObj["client_token"])
+                    .then(() => updateClient())
+                    .then(() => fs.writeFileSync(tempFile, "yes"))
+                    .catch(error => document.location.replace("loginpage/index.html"));
+            }
+        }
+    });
 }
 
 function updateClient() {
-    document.addEventListener("DOMContentLoaded", function (event) {
-        document.getElementById("addons").disabled = true;
-        download("http://raw.githubusercontent.com/CosmoNetworks/AddonRepository/master/addons.json", defaultDataPath + "/addons.json", function (error) {
+    document.getElementById("addons").disabled = true;
+    download("http://raw.githubusercontent.com/CosmoNetworks/AddonRepository/master/addons.json", defaultDataPath + "/addons.json", function (error) {
+        if (error) throw error;
+    })
+    launchbutton = document.getElementById("launch");
+    launchbutton.disabled = true;
+    launchbutton.innerHTML = "Checking for updates...";
+    if (!fs.existsSync(clientdir + "/Cosmo.json")) {
+        download("http://raw.githubusercontent.com/legendary-cookie/cosmo/main/Cosmo.json", clientdir + '/Cosmo.json', function (error) {
             if (error) throw error;
-        })
-        launchbutton = document.getElementById("launch");
-        launchbutton.disabled = true;
-        launchbutton.innerHTML = "Checking for updates...";
-        if (!fs.existsSync(clientdir + "/Cosmo.json")) {
-            download("http://raw.githubusercontent.com/legendary-cookie/cosmo/main/Cosmo.json", clientdir + '/Cosmo.json', function (error) {
+        });
+    }
+    if (fs.existsSync(defaultDataPath + "/newLatest.json")) {
+        fs.renameSync(defaultDataPath + "/newLatest.json", defaultDataPath + "/oldLatest.json");
+    }
+
+    jvm.getNewJvm(document.getElementById("vanilla17"), "Vanilla 1.17")
+
+    download("http://github.com/legendary-cookie/cosmo/releases/latest/download/latest.json", defaultDataPath + "/newLatest.json", function (error) {
+        if (error) throw error;
+        var newLatest = readFromJson(defaultDataPath + "/newLatest.json");
+        var oldLatest = readFromJson(defaultDataPath + "/oldLatest.json");
+        if (oldLatest == undefined) oldLatest = { "latest": "not installed" };
+        log.info("Newest version available: " + newLatest["latest"]);
+        log.info("Version installed: " + oldLatest["latest"]);
+        if (oldLatest["latest"] == newLatest["latest"]) {
+            log.info("Newest version already installed");
+            launchbutton.disabled = false;
+            document.getElementById("addons").disabled = false;
+            launchbutton.innerHTML = "Launch Cosmo " + newLatest["latest"];
+            jvm.getJvm(launchbutton, newLatest["latest"], document.getElementById("addons"))
+            return;
+        } else {
+            launchbutton.innerHTML = "Found newer version! Updating...";
+            if (!fs.existsSync(libdir + '/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar')) {
+                download("http://raw.githubusercontent.com/legendary-cookie/cosmo/main/launchwrapper-1.12.jar", libdir + '/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar', function (error) {
+                    if (error) throw error;
+                    log.info("Downloaded launchwrapper library")
+                });
+            }
+            download("http://github.com/legendary-cookie/cosmo/releases/latest/download/Cosmo-" + newLatest["latest"] + ".jar", cosmolibdir + '/Cosmo-LOCAL.jar', function (error) {
                 if (error) throw error;
-            });
-        }
-        if (fs.existsSync(defaultDataPath + "/newLatest.json")) {
-            fs.renameSync(defaultDataPath + "/newLatest.json", defaultDataPath + "/oldLatest.json");
-        }
-
-        jvm.getNewJvm(document.getElementById("vanilla17"), "Vanilla 1.17")
-
-        download("http://github.com/legendary-cookie/cosmo/releases/latest/download/latest.json", defaultDataPath + "/newLatest.json", function (error) {
-            if (error) throw error;
-            var newLatest = readFromJson(defaultDataPath + "/newLatest.json");
-            var oldLatest = readFromJson(defaultDataPath + "/oldLatest.json");
-            if (oldLatest == undefined) oldLatest = { "latest": "not installed" };
-            log.info("Newest version available: " + newLatest["latest"]);
-            log.info("Version installed: " + oldLatest["latest"]);
-            if (oldLatest["latest"] == newLatest["latest"]) {
-                log.info("Newest version already installed");
                 launchbutton.disabled = false;
                 document.getElementById("addons").disabled = false;
                 launchbutton.innerHTML = "Launch Cosmo " + newLatest["latest"];
+                log.info("Installed newest version");
                 jvm.getJvm(launchbutton, newLatest["latest"], document.getElementById("addons"))
-                return;
-            } else {
-                launchbutton.innerHTML = "Found newer version! Updating...";
-                if (!fs.existsSync(libdir + '/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar')) {
-                    download("http://raw.githubusercontent.com/legendary-cookie/cosmo/main/launchwrapper-1.12.jar", libdir + '/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar', function (error) {
-                        if (error) throw error;
-                        log.info("Downloaded launchwrapper library")
-                    });
-                }
-                download("http://github.com/legendary-cookie/cosmo/releases/latest/download/Cosmo-" + newLatest["latest"] + ".jar", cosmolibdir + '/Cosmo-LOCAL.jar', function (error) {
-                    if (error) throw error;
-                    launchbutton.disabled = false;
-                    document.getElementById("addons").disabled = false;
-                    launchbutton.innerHTML = "Launch Cosmo " + newLatest["latest"];
-                    log.info("Installed newest version");
-                    jvm.getJvm(launchbutton, newLatest["latest"], document.getElementById("addons"))
-                });
-            }
-        })
-    });
-
+            });
+        }
+    })
 }
 
 function readFromJson(path) {

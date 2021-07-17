@@ -1,6 +1,6 @@
 {
   "name": "cosmolauncher",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "description": "A minimal Minecraft launcher for the Cosmoclient, also capable of launching 1.16.5",
   "main": "main.js",
   "repository": "https://github.com/legendary-cookie/cosmolauncher.git",
@@ -61,6 +61,7 @@
     "minecraft-launcher-core": "^3.16.2",
     "shelljs": "^0.8.4",
     "tar-fs": "^2.1.1",
+    "tmp": "^0.2.1",
     "yargs": "^16.2.0",
     "zlib": "^1.0.5"
   }
