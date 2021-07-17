@@ -1,19 +1,30 @@
-const storage = require('electron-json-storage');
-const fs = require('fs');
-
+const storage = require("electron-json-storage");
+const fs = require("fs");
+const { Authenticator } = require('minecraft-launcher-core');
 const defaultDataPath = storage.getDefaultDataPath();
 
-
-function setCreds() {
-   username = document.getElementById('email').value;
-   password = document.getElementById('password').value;
-   fs.writeFileSync(defaultDataPath + "/email.txt", username);
-   fs.writeFileSync(defaultDataPath + "/password.txt", password);
+async function setCredsMojang() {
+   username = document.getElementById("email").value;
+   password = document.getElementById("password").value;
+   try {
+	auth = await Authenticator.getAuth(username, password);	
+   	fs.writeFileSync(defaultDataPath+"/.mcauth", JSON.stringify(auth)); 
+	document.location.replace("../index.html");
+   }
+    catch(e){
+	console.error(e);
+        alert("Something went wrong while logging in, try checking if your password/email are correct!");
+    }
 }
 
 
 
-document.getElementById('loginbutton').onclick = loginfunc;
+document.getElementById("mojang-login").onclick = loginfunc;
 function loginfunc() {
-   setCreds();
+   setCredsMojang();
 }
+
+$('form').on('submit', function(event) {
+   event.preventDefault();
+});
+

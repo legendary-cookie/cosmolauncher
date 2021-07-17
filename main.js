@@ -1,6 +1,7 @@
-const { app, BrowserWindow, ipcMain, Menu } = require('electron');
+const { app, BrowserWindow, ipcMain, ipcRenderer, Menu } = require('electron');
 const { autoUpdater } = require("electron-updater");
 const log = require('electron-log');
+const http = require('http');
 let updatesTrueFalse = false;
 //-------------------------------------------------------------------
 // Logging
@@ -65,6 +66,9 @@ function createWindow() {
     ipcMain.on('getupdates', (event) => {
         event.reply('update-reply', updatesTrueFalse)
     })
+    ipcMain.on('load', (event, arg) => {
+    	mainWindow.loadFile(arg)
+    })
 }
 app.on('ready', () => {
     autoUpdater.checkForUpdatesAndNotify();
@@ -85,3 +89,14 @@ app.on('activate', function () {
 autoUpdater.on('update-available', function () {
     updatesTrueFalse = true;
 })
+
+var server = http.createServer(handleRequest);
+
+server.listen(6546, function() {
+    console.log('server started at http://localhost:6546');
+});
+
+function handleRequest(req, res) {
+ console.log("Got one!");
+};
+

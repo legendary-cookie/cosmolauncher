@@ -13,9 +13,11 @@ var cosmolibdir = libdir + '/com/cosmo/Cosmo/LOCAL';
 const win = remote.getCurrentWindow();
 const log = require('electron-log');
 const jvm = require('./jvm')
+const {Authenticator} = require('minecraft-launcher-core');
 
 createValidTreeStructure();
 update();
+
 document.onreadystatechange = (event) => {
     if (document.readyState == "complete") {
         handleWindowControls();
@@ -66,8 +68,16 @@ function download(url, dest, cb) {
     });
 }
 
-function update() {
-    updateClient();
+async function update() {
+   if (!fs.existsSync(jsonstorage.getDefaultDataPath()+"/.mcauth")) {
+     document.location.replace("loginpage/index.html");return;
+   } else {
+	   authObj = JSON.parse(fs.readFileSync(defaultDataPath+"/.mcauth", 'utf-8'));
+	   validProm = await Authenticator.validate(authObj["access_token"], authObj["client_token"]);
+	  
+	   return;
+   }
+   updateClient();
 }
 
 function updateClient() {
@@ -115,7 +125,7 @@ function updateClient() {
                 download("http://github.com/legendary-cookie/cosmo/releases/latest/download/Cosmo-" + newLatest["latest"] + ".jar", cosmolibdir + '/Cosmo-LOCAL.jar', function (error) {
                     if (error) throw error;
                     launchbutton.disabled = false;
-                    addonButton.disabled = false;
+                    document.getElementById("addons").disabled = false;
                     launchbutton.innerHTML = "Launch Cosmo " + newLatest["latest"];
                     log.info("Installed newest version");
                     jvm.getJvm(launchbutton, newLatest["latest"], document.getElementById("addons"))

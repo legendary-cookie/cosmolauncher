@@ -12,16 +12,16 @@
       <form class="login-form">
         <input id="email" type="text" placeholder="email" />
         <input id="password" type="password" placeholder="password" />
-        <button id="loginbutton" name="loginbutton">save</button>
+        <button id="mojang-login" name="loginbutton" type="login">Login (Mojang)</button>
+<!--	<button id="micro-login" name="loginbutton" type="login">Login (Microsoft)</button>
+-->
       </form>
-      <a href="../index.html">
-        <button>Go back</button>
-      </a>
     </div>
   </div>
-
+  <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+  <script src="../js/jquery.min.js"></script>
   <script src="./script.js"></script>
-
+  <script>if (window.module) module = window.module;</script>
 </body>
 
 </html>

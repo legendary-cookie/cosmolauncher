@@ -4,11 +4,12 @@ const filesystem = require('fs');
 const launcher = new Client();
 
 function launch() {
-    const nameuser = filesystem.readFileSync(jsonstorage.getDefaultDataPath() + "/email.txt", 'utf-8');
-    const passuser = filesystem.readFileSync(jsonstorage.getDefaultDataPath() + "/password.txt", 'utf-8');
+	rawAuthObj = filesystem.readFileSync(jsonstorage.getDefaultDataPath()+"/.mcauth", 'utf-8');
+	console.log(rawAuthObj)
+	authObj = JSON.parse(rawAuthObj);
     let opts = {
         clientPackage: null,
-        authorization: Authenticator.getAuth(nameuser, passuser),
+        authorization: authObj,
         root: jsonstorage.getDefaultDataPath() + "/minecraft",
         version: {
             number: "1.8.9",
