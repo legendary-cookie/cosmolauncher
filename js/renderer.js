@@ -82,6 +82,10 @@ async function update() {
     fs.readFile(tempFile, 'utf8', function (err, data) {
         if (err) throw err;
         if (data == "no") {
+            if (fs.existsSync(jsonstorage.getDefaultDataPath() + "/.lastlog")) {
+                const lastlog = JSON.parse(fs.readFileSync(jsonstorage.getDefaultDataPath() + "/.lastlog", "utf-8"))["lastlog"];
+                if (((new Date).getHours()) == (lastlog)) return;
+            }
             if (!fs.existsSync(jsonstorage.getDefaultDataPath() + "/.mcauth")) {
                 document.location.replace("loginpage/index.html");
             } else {
