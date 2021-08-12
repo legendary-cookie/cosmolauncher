@@ -3,19 +3,49 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="../style.css" />
+  <script>window.$ = window.jQuery = require('jquery');</script>
+  <script src="../js/launch.js"></script>
+  <script src="../js/jvm.js"></script>
 </head>
-
+<header id="titlebar">
+    <div id="drag-region">
+      <div id="window-title">
+      </div>
+      <div id="window-controls">
+        <div class="button" id="min-button">
+          <img class="icon"
+            srcset="../assets/icons/min-w-10.png 1x, ../assets/icons/min-w-12.png 1.25x, ../assets/icons/min-w-15.png 1.5x, ../assets/icons/min-w-15.png 1.75x, ../assets/icons/min-w-20.png 2x, ../assets/icons/min-w-20.png 2.25x, ../assets/icons/min-w-24.png 2.5x, ../assets/icons/min-w-30.png 3x, ../assets/icons/min-w-30.png 3.5x"
+            draggable="false" />
+        </div>
+        <div class="button" id="max-button">
+          <img class="icon"
+            srcset="../assets/icons/max-w-10.png 1x, ../assets/icons/max-w-12.png 1.25x, ../assets/icons/max-w-15.png 1.5x, ../assets/icons/max-w-15.png 1.75x, ../assets/icons/max-w-20.png 2x, ../assets/icons/max-w-20.png 2.25x, ../assets/icons/max-w-24.png 2.5x, ../assets/icons/max-w-30.png 3x, ../assets/icons/max-w-30.png 3.5x"
+            draggable="false" />
+        </div>
+        <div class="button" id="restore-button">
+          <img class="icon"
+            srcset="../assets/icons/restore-w-10.png 1x, ../assets/icons/restore-w-12.png 1.25x, ../assets/icons/restore-w-15.png 1.5x, ../assets/icons/restore-w-15.png 1.75x, ../assets/icons/restore-w-20.png 2x, ../assets/icons/restore-w-20.png 2.25x, ../assets/icons/restore-w-24.png 2.5x, ../assets/icons/restore-w-30.png 3x, ../assets/icons/restore-w-30.png 3.5x"
+            draggable="false" />
+        </div>
+        <div class="button" id="close-button">
+          <img class="icon"
+            srcset="../assets/icons/close-w-10.png 1x, ../assets/icons/close-w-12.png 1.25x, ../assets/icons/close-w-15.png 1.5x, ../assets/icons/close-w-15.png 1.75x, ../assets/icons/close-w-20.png 2x, ../assets/icons/close-w-20.png 2.25x, ../assets/icons/close-w-24.png 2.5x, ../assets/icons/close-w-30.png 3x, ../assets/icons/close-w-30.png 3.5x"
+            draggable="false" />
+        </div>
+      </div>
+    </div>
+  </header>
 <body>
     <h5>Addon Browser</h5>
     <div>
         <a href="../index.html">
-            <button>Go back</button>
+            <p><button>Go back</button></p>
         </a>
         <div id="addonpageroot">
         </div>
     </div>
-    <script src="./script.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>
