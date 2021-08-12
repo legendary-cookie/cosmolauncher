@@ -22,8 +22,10 @@ html, body {
 
 body {
   font-family: "Segoe UI", sans-serif;
-  background: #1A2933;
-  color: #FFF;
+  background-image: url("assets/stars.gif");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+      color: #FFF;
 }
 
 h1 {
@@ -183,14 +185,14 @@ button {
 }
 
 .launch:enabled {
-  background-color: white;
+  background-color: #fdfdfd;
   color: black;
-  border: 2px solid #4CAF50;
+  border: 2px solid #313030;
 }
 
 .launch:hover:enabled {
-  background-color: #4CAF50;
-  color: white;
+  background-color: #353434;
+  color: rgb(255, 255, 255);
 }
 
 .credential {
