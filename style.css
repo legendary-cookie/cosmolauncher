@@ -35,6 +35,7 @@ h1 {
 p {
   margin-top: 10px;
   color: rgba(255, 255, 255, 0.4);
+  text-align: center;
 }
 
 .circles {
@@ -160,6 +161,7 @@ button {
   cursor: pointer;
   text-align: center;
   align-self: center;
+  width: 250px;
 }
 
 .vertical-center {
