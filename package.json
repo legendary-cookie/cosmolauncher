@@ -47,7 +47,8 @@
   "license": "ISC",
   "devDependencies": {
     "electron": "^9.4.0",
-    "electron-builder": "^22.9.1"
+    "electron-builder": "^22.9.1",
+    "eslint": "^7.32.0"
   },
   "dependencies": {
     "@slack/rtm-api": "^6.0.0",
@@ -59,6 +60,7 @@
     "jquery": "^3.5.1",
     "minecraft-auth": "^1.0.27",
     "minecraft-launcher-core": "^3.16.2",
+    "node-fetch": "^2.6.1",
     "shelljs": "^0.8.4",
     "tar-fs": "^2.1.1",
     "tmp": "^0.2.1",
