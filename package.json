@@ -61,7 +61,7 @@
     "minecraft-auth": "^1.0.27",
     "minecraft-launcher-core": "^3.16.2",
     "node-fetch": "^2.6.1",
-    "shelljs": "^0.8.4",
+    "shelljs": "^0.8.5",
     "tar-fs": "^2.1.1",
     "tmp": "^0.2.1",
     "yargs": "^16.2.0",
