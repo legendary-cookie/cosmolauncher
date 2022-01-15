@@ -56,7 +56,7 @@
     "electron-log": "^4.3.2",
     "electron-progressbar": "^2.0.0",
     "electron-updater": "^4.3.5",
-    "follow-redirects": "^1.13.3",
+    "follow-redirects": "^1.14.7",
     "jquery": "^3.5.1",
     "minecraft-auth": "^1.0.27",
     "minecraft-launcher-core": "^3.16.2",
